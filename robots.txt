@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gabrielrodriguesyt.github.io/SitemapMaker/sitemap.xml
