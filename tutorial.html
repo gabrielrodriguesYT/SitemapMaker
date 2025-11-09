@@ -1,1017 +1,1178 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tutorial completo - Aprenda a gerar, implementar e otimizar seu sitemap XML para melhorar o SEO do seu site.">
-    <meta name="keywords" content="tutorial sitemap, como fazer sitemap, SEO, google search console, indexação, como usar SitemapMaker">
-    <title>Tutorial Completo - SiteMapMaker</title>
-    <style>
-        :root {
-            --primary-color: #86D581;
-            --primary-dark: #6BBF67;
-            --secondary-color: #F5F5F5;
-            --text-color: #333333;
-            --light-text: #FFFFFF;
-            --background-color: #FFFFFF;
-            --section-bg: #F9F9F9;
-            --accent-color: #4A9C46;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        /* Header */
-        header {
-            background-color: var(--background-color);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo h1 {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .logo span {
-            color: var(--accent-color);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 30px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        nav ul li a:hover {
-            color: var(--primary-color);
-        }
-
-        /* Hero Section */
-        .tutorial-hero {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-            color: var(--light-text);
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .tutorial-hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .tutorial-hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto;
-            opacity: 0.9;
-        }
-
-        /* Tutorial Navigation */
-        .tutorial-nav {
-            background-color: var(--section-bg);
-            padding: 20px 0;
-            position: sticky;
-            top: 80px;
-            z-index: 90;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .tutorial-nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            flex-wrap: wrap;
-        }
-
-        .tutorial-nav li {
-            margin: 0 15px;
-        }
-
-        .tutorial-nav a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 500;
-            padding: 8px 0;
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .tutorial-nav a:hover {
-            color: var(--primary-color);
-        }
-
-        .tutorial-nav a.active {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .tutorial-nav a.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--primary-color);
-        }
-
-        /* Tutorial Content */
-        .tutorial-content {
-            padding: 60px 0;
-        }
-
-        .tutorial-section {
-            margin-bottom: 80px;
-            scroll-margin-top: 140px;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-header h2 {
-            font-size: 2.2rem;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-        }
-
-        .section-header p {
-            color: #666;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Tutorial Steps */
-        .tutorial-steps {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .step {
-            display: flex;
-            background-color: var(--section-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .step:hover {
-            transform: translateY(-5px);
-        }
-
-        .step-number {
-            background-color: var(--primary-color);
-            color: var(--light-text);
-            min-width: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .step-content {
-            padding: 30px;
-            flex: 1;
-        }
-
-        .step-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-        }
-
-        .step-image {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 8px;
-            margin: 20px 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .code-block {
-            background-color: #2d2d2d;
-            color: #f8f8f2;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            overflow-x: auto;
-            font-family: 'Courier New', monospace;
-        }
-
-        /* Tips Section */
-        .tips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .tip-card {
-            background-color: var(--section-bg);
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .tip-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .tip-icon {
-            background-color: var(--primary-color);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            color: var(--light-text);
-            font-size: 1.5rem;
-        }
-
-        .tip-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-        }
-
-        /* FAQ Section */
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            margin-bottom: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .faq-question {
-            background-color: var(--section-bg);
-            padding: 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .faq-question:hover {
-            background-color: #f0f0f0;
-        }
-
-        .faq-question::after {
-            content: '+';
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        .faq-answer {
-            background-color: var(--background-color);
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding: 20px;
-        }
-
-        .faq-item.active .faq-question::after {
-            content: '-';
-        }
-
-        /* CTA Section */
-        .tutorial-cta {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-            color: var(--light-text);
-            padding: 80px 0;
-            text-align: center;
-            border-radius: 15px;
-            margin-top: 60px;
-        }
-
-        .tutorial-cta h2 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-        }
-
-        .tutorial-cta p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: var(--light-text);
-            color: var(--primary-color);
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Footer */
-        footer {
-            background-color: #2C3E50;
-            color: var(--light-text);
-            padding: 60px 0 30px;
-            margin-top: 80px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-column h3 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: var(--primary-color);
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-column ul li a {
-            color: #DDD;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-column ul li a:hover {
-            color: var(--primary-color);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #AAA;
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            nav ul {
-                margin-top: 20px;
-                justify-content: center;
-            }
-
-            nav ul li {
-                margin: 0 10px;
-            }
-
-            .tutorial-hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .step {
-                flex-direction: column;
-            }
-
-            .step-number {
-                min-width: 100%;
-                padding: 15px 0;
-            }
-
-            .tutorial-nav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .tutorial-nav li {
-                margin: 5px 0;
-            }
-        }
-
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: var(--primary-color);
-            color: var(--light-text);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 1.5rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .back-to-top:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-5px);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tutorial completo - Aprenda a gerar, implementar e otimizar seu sitemap XML para melhorar o SEO do seu site.">
+  <meta name="keywords" content="tutorial sitemap, como fazer sitemap, SEO, google search console, indexação, como usar SitemapMaker">
+  <title>Tutorial Completo - SiteMapMaker</title>
+  <link rel="icon" href="imgs/logo.png" type="image/png">
+  <style>
+:root {
+    --primary-color: #86D581;
+    --primary-dark: #6BBF67;
+    --secondary-color: #F5F5F5;
+    --text-color: #333333;
+    --light-text: #FFFFFF;
+    --background-color: #FFFFFF;
+    --section-bg: #F9F9F9;
+    --accent-color: #4A9C46;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+  }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    /* Header */
+    header {
+      background-color: var(--background-color);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo h1 {
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .logo span {
+      color: var(--accent-color);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin-left: 30px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    nav ul li a:hover {
+      color: var(--primary-color);
+    }
+
+    /* Hero Section */
+    .tutorial-hero {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      color: var(--light-text);
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .tutorial-hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .tutorial-hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+
+    /* Tutorial Navigation */
+    .tutorial-nav {
+      background-color: var(--section-bg);
+      padding: 20px 0;
+      position: sticky;
+      top: 80px;
+      z-index: 90;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .tutorial-nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .tutorial-nav li {
+      margin: 0 15px;
+    }
+
+    .tutorial-nav a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      padding: 8px 0;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .tutorial-nav a:hover {
+      color: var(--primary-color);
+    }
+
+    .tutorial-nav a.active {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .tutorial-nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--primary-color);
+    }
+
+    /* Tutorial Content */
+    .tutorial-content {
+      padding: 60px 0;
+    }
+
+    .tutorial-section {
+      margin-bottom: 80px;
+      scroll-margin-top: 140px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-header h2 {
+      font-size: 2.2rem;
+      color: var(--accent-color);
+      margin-bottom: 15px;
+    }
+
+    .section-header p {
+      color: #666;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Tutorial Steps */
+    .tutorial-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .step {
+      display: flex;
+      background-color: var(--section-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .step:hover {
+      transform: translateY(-5px);
+    }
+
+    .step-number {
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      min-width: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .step-content {
+      padding: 30px;
+      flex: 1;
+    }
+
+    .step-content h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--accent-color);
+    }
+
+    .step-image {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+      margin: 20px 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .code-block {
+      background-color: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Tips Section */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .tip-card {
+      background-color: var(--section-bg);
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .tip-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .tip-icon {
+      background-color: var(--primary-color);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: var(--light-text);
+      font-size: 1.5rem;
+    }
+
+    .tip-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: var(--accent-color);
+    }
+
+    /* FAQ Section */
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      margin-bottom: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .faq-question {
+      background-color: var(--section-bg);
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .faq-question:hover {
+      background-color: #f0f0f0;
+    }
+
+    .faq-question::after {
+      content: '+';
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    .faq-answer {
+      background-color: var(--background-color);
+      padding: 0 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+      padding: 20px;
+    }
+
+    .faq-item.active .faq-question::after {
+      content: '-';
+    }
+
+    /* CTA Section */
+    .tutorial-cta {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      color: var(--light-text);
+      padding: 80px 0;
+      text-align: center;
+      border-radius: 15px;
+      margin-top: 60px;
+    }
+
+    .tutorial-cta h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    .tutorial-cta p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background-color: var(--light-text);
+      color: var(--primary-color);
+      padding: 15px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Footer */
+    footer {
+      background-color: #2C3E50;
+      color: var(--light-text);
+      padding: 60px 0 30px;
+      margin-top: 80px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-column ul li a {
+      color: #DDD;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-column ul li a:hover {
+      color: var(--primary-color);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #AAA;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      nav ul {
+        margin-top: 20px;
+        justify-content: center;
+      }
+
+      nav ul li {
+        margin: 0 10px;
+      }
+
+      .tutorial-hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .step {
+        flex-direction: column;
+      }
+
+      .step-number {
+        min-width: 100%;
+        padding: 15px 0;
+      }
+
+      .tutorial-nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .tutorial-nav li {
+        margin: 5px 0;
+      }
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-5px);
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <h1>SiteMap<span>Maker</span></h1>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="generate-sitemap.html">Gerar Sitemap</a></li>
-                        <li><a href="tutorial.html" class="active">Tutorial</a></li>
-                    </ul>
-                </nav>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <h1>SiteMap<span>Maker</span></h1>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="generate-sitemap.html">Gerar Sitemap</a></li>
+            <li><a href="tutorial.html" class="active">Tutorial</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="tutorial-hero">
+    <div class="container">
+      <h1>Tutorial Completo: Sitemap XML</h1>
+      <p>
+        Aprenda a gerar, implementar e otimizar seu sitemap XML para melhorar significativamente o SEO do seu site
+      </p>
+    </div>
+  </section>
+
+  <!-- Tutorial Navigation -->
+  <section class="tutorial-nav">
+    <div class="container">
+      <ul>
+        <li><a href="#geracao" class="active">Gerar Sitemap</a></li>
+        <li><a href="#implementacao">Implementar</a></li>
+        <li><a href="#google-console">Google Search Console</a></li>
+        <li><a href="#otimizacao">Otimização</a></li>
+        <li><a href="#dicas">Dicas Avançadas</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Tutorial Content -->
+  <section class="tutorial-content">
+    <div class="container">
+      <!-- Geração Section -->
+      <section id="geracao" class="tutorial-section">
+        <div class="section-header">
+          <h2>Como Gerar seu Sitemap XML</h2>
+          <p>
+            Aprenda o processo completo para criar um sitemap XML eficiente para seu site
+          </p>
+        </div>
+
+        <div class="tutorial-steps">
+          <div class="step">
+            <div class="step-number">
+              1
             </div>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="tutorial-hero">
-        <div class="container">
-            <h1>Tutorial Completo: Sitemap XML</h1>
-            <p>Aprenda a gerar, implementar e otimizar seu sitemap XML para melhorar significativamente o SEO do seu site</p>
-        </div>
-    </section>
-
-    <!-- Tutorial Navigation -->
-    <section class="tutorial-nav">
-        <div class="container">
-            <ul>
-                <li><a href="#geracao" class="active">Gerar Sitemap</a></li>
-                <li><a href="#implementacao">Implementar</a></li>
-                <li><a href="#google-console">Google Search Console</a></li>
-                <li><a href="#otimizacao">Otimização</a></li>
-                <li><a href="#dicas">Dicas Avançadas</a></li>
-                <li><a href="#faq">FAQ</a></li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- Tutorial Content -->
-    <section class="tutorial-content">
-        <div class="container">
-            <!-- Geração Section -->
-            <section id="geracao" class="tutorial-section">
-                <div class="section-header">
-                    <h2>Como Gerar seu Sitemap XML</h2>
-                    <p>Aprenda o processo completo para criar um sitemap XML eficiente para seu site</p>
-                </div>
-
-                <div class="tutorial-steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h3>Preparar seu Site</h3>
-                            <p>Antes de gerar o sitemap, certifique-se de que seu site está pronto:</p>
-                            <ul>
-                                <li>Todas as páginas importantes estão publicadas e acessíveis</li>
-                                <li>Não há links quebrados ou páginas com erro 404</li>
-                                <li>O site possui uma estrutura de navegação clara</li>
-                                <li>As URLs são amigáveis e seguem uma lógica consistente</li>
-                            </ul>
-                            <p>Esta preparação garante que o sitemap gerado seja completo e preciso.</p>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h3>Acessar o SiteMapMaker</h3>
-                            <p>Vá até a página de geração de sitemap do SiteMapMaker:</p>
-                            <p><a href="generate-sitemap.html" style="color: var(--primary-color); font-weight: 600;">Gerar Sitemap - SiteMapMaker</a></p>
-                            <p>Não é necessário criar conta ou fazer login. O serviço é 100% gratuito.</p>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h3>Inserir a URL do Site</h3>
-                            <p>No campo indicado, digite a URL completa do seu site, incluindo "http://" ou "https://".</p>
-                            <div class="code-block">
-                                Exemplo: https://www.meusite.com
-                            </div>
-                            <p>Certifique-se de usar a URL canônica (principal) do seu site.</p>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <h3>Configurar as Opções</h3>
-                            <p>Personalize as opções de acordo com suas necessidades:</p>
-                            <ul>
-                                <li><strong>Incluir imagens:</strong> Recomendado para sites com conteúdo visual</li>
-                                <li><strong>Incluir vídeos:</strong> Importante para sites com conteúdo em vídeo</li>
-                                <li><strong>Limitar a 500 páginas:</strong> A maioria dos sites se beneficia desta limitação</li>
-                                <li><strong>Frequência de alteração:</strong> Defina conforme a atualização do seu conteúdo</li>
-                                <li><strong>Prioridade:</strong> Atribua prioridades diferentes para tipos de páginas</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-number">5</div>
-                        <div class="step-content">
-                            <h3>Gerar e Baixar o Sitemap</h3>
-                            <p>Clique no botão "Gerar Sitemap" e aguarde o processamento.</p>
-                            <p>Uma vez concluído, você pode:</p>
-                            <ul>
-                                <li>Visualizar o XML gerado</li>
-                                <li>Copiar o código para usar posteriormente</li>
-                                <li>Fazer o download do arquivo sitemap.xml</li>
-                            </ul>
-                            <p>Salve o arquivo em um local seguro do seu computador.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Implementação Section -->
-            <section id="implementacao" class="tutorial-section">
-                <div class="section-header">
-                    <h2>Implementando o Sitemap no seu Site</h2>
-                    <p>Aprenda a colocar o sitemap no seu site para que os mecanismos de busca possam encontrá-lo</p>
-                </div>
-
-                <div class="tutorial-steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h3>Fazer Upload do Arquivo</h3>
-                            <p>Transfira o arquivo sitemap.xml para o diretório raiz do seu site:</p>
-                            <ul>
-                                <li>Acesse seu painel de hospedagem ou use FTP</li>
-                                <li>Navegue até a pasta principal (normalmente "public_html" ou "www")</li>
-                                <li>Faça upload do arquivo sitemap.xml</li>
-                            </ul>
-                            <p>O arquivo deve estar acessível através de: <code>https://seusite.com/sitemap.xml</code></p>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h3>Adicionar ao robots.txt (Opcional)</h3>
-                            <p>Para facilitar que os crawlers encontrem seu sitemap, adicione esta linha ao arquivo robots.txt:</p>
-                            <div class="code-block">
-                                Sitemap: https://seusite.com/sitemap.xml
-                            </div>
-                            <p>Coloque esta linha preferencialmente no início ou no final do arquivo robots.txt.</p>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h3>Verificar se está Acessível</h3>
-                            <p>Abra seu navegador e digite a URL completa do sitemap para verificar se está funcionando:</p>
-                            <div class="code-block">
-                                https://seusite.com/sitemap.xml
-                            </div>
-                            <p>Se aparecer o conteúdo XML, significa que o sitemap está corretamente instalado.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Google Search Console Section -->
-            <section id="google-console" class="tutorial-section">
-                <div class="section-header">
-                    <h2>Enviando para o Google Search Console</h2>
-                    <p>O passo mais importante para garantir que o Google conheça e indexe todas as páginas do seu site</p>
-                </div>
-
-                <div class="tutorial-steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h3>Acessar o Google Search Console</h3>
-                            <p>Vá até <a href="https://search.google.com/search-console/" style="color: var(--primary-color); font-weight: 600;">Google Search Console</a> e faça login com sua conta Google.</p>
-                            <p>Se você ainda não adicionou seu site, clique em "Adicionar propriedade" e siga as instruções para verificar sua propriedade.</p>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h3>Navegar até a Seção Sitemaps</h3>
-                            <p>No menu lateral, clique em "Sitemaps" na seção "Indexação".</p>
-                            <p>Esta é a área onde você pode enviar e gerenciar seus sitemaps.</p>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h3>Adicionar Novo Sitemap</h3>
-                            <p>No campo "Adicionar um novo sitemap", digite o caminho para seu sitemap:</p>
-                            <div class="code-block">
-                                sitemap.xml
-                            </div>
-                            <p>Clique em "Enviar" para registrar seu sitemap no Google.</p>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <h3>Monitorar o Status</h3>
-                            <p>Após o envio, o Google começará a processar seu sitemap. Você pode verificar:</p>
-                            <ul>
-                                <li><strong>Status:</strong> Mostra se o sitemap foi processado com sucesso</li>
-                                <li><strong>Última leitura:</strong> Quando o Google acessou seu sitemap pela última vez</li>
-                                <li><strong>URLs descobertas:</strong> Quantas URLs foram encontradas no sitemap</li>
-                            </ul>
-                            <p>O processamento pode levar de alguns dias a algumas semanas.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Otimização Section -->
-            <section id="otimizacao" class="tutorial-section">
-                <div class="section-header">
-                    <h2>Otimizando seu Sitemap</h2>
-                    <p>Dicas para extrair o máximo benefício do seu sitemap XML</p>
-                </div>
-
-                <div class="tips-grid">
-                    <div class="tip-card">
-                        <div class="tip-icon">✓</div>
-                        <h3>Atualize Regularmente</h3>
-                        <p>Gere um novo sitemap sempre que adicionar conteúdo significativo ao seu site ou alterar sua estrutura.</p>
-                    </div>
-
-                    <div class="tip-card">
-                        <div class="tip-icon">⚡</div>
-                        <h3>Use Prioridades Inteligentes</h3>
-                        <p>Atribua prioridades mais altas para páginas importantes como homepage, páginas de produto e conteúdo principal.</p>
-                    </div>
-
-                    <div class="tip-card">
-                        <div class="tip-icon">🔄</div>
-                        <h3>Ajuste Frequências</h3>
-                        <p>Defina frequências de atualização realistas. Blog posts podem ser "diariamente", enquanto páginas institucionais "mensalmente".</p>
-                    </div>
-
-                    <div class="tip-card">
-                        <div class="tip-icon">📅</div>
-                        <h3>Mantenha Lastmod Atualizado</h3>
-                        <p>Atualize a data da última modificação (lastmod) sempre que fizer alterações significativas em uma página.</p>
-                    </div>
-
-                    <div class="tip-card">
-                        <div class="tip-icon">🚫</div>
-                        <h3>Exclua Conteúdo Não Indexável</h3>
-                        <p>Não inclua no sitemap páginas com noindex, páginas de login, ou conteúdo duplicado.</p>
-                    </div>
-
-                    <div class="tip-card">
-                        <div class="tip-icon">📊</div>
-                        <h3>Monitore no Search Console</h3>
-                        <p>Verifique regularmente o Google Search Console para ver como suas páginas estão sendo indexadas.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Dicas Avançadas Section -->
-            <section id="dicas" class="tutorial-section">
-                <div class="section-header">
-                    <h2>Dicas Avançadas e Melhores Práticas</h2>
-                    <p>Vá além do básico com estas estratégias avançadas de sitemap</p>
-                </div>
-
-                <div class="tutorial-steps">
-                    <div class="step">
-                        <div class="step-content">
-                            <h3>Sitemaps para Imagens e Vídeos</h3>
-                            <p>Para sites ricos em mídia, considere criar sitemaps específicos:</p>
-                            <ul>
-                                <li><strong>Sitemap de imagens:</strong> Inclui todas as imagens importantes do site</li>
-                                <li><strong>Sitemap de vídeos:</strong> Especialmente útil para conteúdo em vídeo</li>
-                                <li><strong>Sitemap de notícias:</strong> Para sites de notícias que usam o Google News</li>
-                            </ul>
-                            <p>O SiteMapMaker permite incluir imagens e vídeos no sitemap principal.</p>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-content">
-                            <h3>Sitemap Index para Sites Grandes</h3>
-                            <p>Para sites com milhares de páginas, crie um sitemap index que referencia múltiplos sitemaps:</p>
-                            <div class="code-block">
-                                &lt;?xml version="1.0" encoding="UTF-8"?&gt;
-                                &lt;sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
-                                &lt;sitemap&gt;
-                                    &lt;loc&gt;https://www.example.com/sitemap-pages.xml&lt;/loc&gt;
-                                    &lt;lastmod&gt;2023-10-15&lt;/lastmod&gt;
-                                &lt;/sitemap&gt;
-                                &lt;sitemap&gt;
-                                    &lt;loc&gt;https://www.example.com/sitemap-images.xml&lt;/loc&gt;
-                                    &lt;lastmod&gt;2023-10-15&lt;/lastmod&gt;
-                                &lt;/sitemap&gt;
-                                &lt;/sitemapindex&gt;
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-content">
-                            <h3>Compatibilidade com Outros Mecanismos de Busca</h3>
-                            <p>Além do Google, outros mecanismos de busca também usam sitemaps:</p>
-                            <ul>
-                                <li><strong>Bing Webmaster Tools:</strong> Oferece funcionalidades similares ao Google Search Console</li>
-                                <li><strong>Yandex Webmaster:</strong> Para tráfego russo e de países vizinhos</li>
-                                <li><strong>Baidu Webmaster Tools:</strong> Para o mercado chinês</li>
-                            </ul>
-                            <p>Envie seu sitemap para essas plataformas se seu público-alvo inclui essas regiões.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FAQ Section -->
-            <section id="faq" class="tutorial-section">
-                <div class="section-header">
-                    <h2>Perguntas Frequentes sobre Sitemaps</h2>
-                    <p>Respostas para as dúvidas mais comuns sobre sitemaps XML</p>
-                </div>
-
-                <div class="faq-container">
-                    <div class="faq-item">
-                        <div class="faq-question">Com que frequência devo atualizar meu sitemap?</div>
-                        <div class="faq-answer">
-                            <p>Recomendamos atualizar seu sitemap sempre que:</p>
-                            <ul>
-                                <li>Adicionar novas páginas significativas ao site</li>
-                                <li>Remover páginas existentes</li>
-                                <li>Mudar a estrutura de URLs do site</li>
-                                <li>Fazer alterações importantes no conteúdo das páginas</li>
-                            </ul>
-                            <p>Para a maioria dos sites, uma atualização mensal é suficiente. Para sites com conteúdo muito dinâmico, considere atualizações semanais.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <div class="faq-question">Meu sitemap tem um limite de tamanho?</div>
-                        <div class="faq-answer">
-                            <p>Sim, o Google recomenda os seguintes limites:</p>
-                            <ul>
-                                <li><strong>Arquivo sitemap individual:</strong> Máximo de 50MB (não compactado) ou 50.000 URLs</li>
-                                <li><strong>Sitemap index:</strong> Pode referenciar até 50.000 sitemaps individuais</li>
-                            </ul>
-                            <p>Se seu site exceder esses limites, divida-o em múltiplos sitemaps e use um sitemap index.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <div class="faq-question">Preciso de sitemap se meu site é pequeno?</div>
-                        <div class="faq-answer">
-                            <p>Mesmo para sites pequenos, um sitemap é benéfico porque:</p>
-                            <ul>
-                                <li>Ajuda o Google a descobrir todo o conteúdo, mesmo com poucos backlinks</li>
-                                <li>Fornece informações sobre a importância relativa das páginas</li>
-                                <li>Indica com que frequência o conteúdo é atualizado</li>
-                                <li>Pode acelerar a indexação de novo conteúdo</li>
-                            </ul>
-                            <p>Para sites com menos de 10 páginas, o benefício é menor, mas ainda recomendado.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <div class="faq-question">O sitemap garante que minhas páginas serão indexadas?</div>
-                        <div class="faq-answer">
-                            <p>Não, o sitemap é apenas uma recomendação para os mecanismos de busca. O Google pode optar por não indexar algumas páginas devido a:</p>
-                            <ul>
-                                <li>Conteúdo de baixa qualidade ou duplicado</li>
-                                <li>Problemas de rastreabilidade</li>
-                                <li>Diretivas no robots.txt ou meta tags</li>
-                                <li>Penalidades manuais ou algoritmicas</li>
-                            </ul>
-                            <p>O sitemap aumenta as chances, mas não garante a indexação.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <div class="faq-question">Posso usar o mesmo sitemap para diferentes subdomínios?</div>
-                        <div class="faq-answer">
-                            <p>Não, cada subdomínio é tratado como um site separado pelos mecanismos de busca. Você precisa:</p>
-                            <ul>
-                                <li>Criar um sitemap separado para cada subdomínio</li>
-                                <li>Verificar cada subdomínio individualmente no Google Search Console</li>
-                                <li>Enviar o sitemap específico para cada propriedade</li>
-                            </ul>
-                            <p>Exceção: se você usar domínios internacionais (como exemplo.com.br, exemplo.es), pode usar o mesmo sitemap se configurar corretamente as tags hreflang.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CTA Section -->
-            <section class="tutorial-cta">
-                <h2>Pronto para Gerar seu Sitemap?</h2>
-                <p>Agora que você já sabe como criar, implementar e otimizar seu sitemap, é hora de colocar em prática. Use nosso gerador gratuito para criar seu sitemap em minutos.</p>
-                <a href="generate-sitemap.html" class="cta-button">Gerar Meu Sitemap Agora</a>
-            </section>
-        </div>
-    </section>
-
-    <!-- Back to Top Button -->
-    <a href="#" class="back-to-top" id="backToTop">↑</a>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>SiteMapMaker</h3>
-                    <p>Ferramenta gratuita para geração de sitemaps XML, focada em melhorar a indexação e SEO do seu site.</p>
-                </div>
-                <div class="footer-column">
-                    <h3>Links Rápidos</h3>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="generate-sitemap.html">Gerar Sitemap</a></li>
-                        <li><a href="tutorial.html">Tutorial</a></li>
-                        <li><a href="#">Política de Privacidade</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Recursos</h3>
-                    <ul>
-                        <li><a href="#">Blog sobre SEO</a></li>
-                        <li><a href="#">Tutoriais</a></li>
-                        <li><a href="#">Perguntas Frequentes</a></li>
-                        <li><a href="#">Contato</a></li>
-                    </ul>
-                </div>
+            <div class="step-content">
+              <h3>Preparar seu Site</h3>
+              <p>
+                Antes de gerar o sitemap, certifique-se de que seu site está pronto:
+              </p>
+              <ul>
+                <li>Todas as páginas importantes estão publicadas e acessíveis</li>
+                <li>Não há links quebrados ou páginas com erro 404</li>
+                <li>O site possui uma estrutura de navegação clara</li>
+                <li>As URLs são amigáveis e seguem uma lógica consistente</li>
+              </ul>
+              <p>
+                Esta preparação garante que o sitemap gerado seja completo e preciso.
+              </p>
             </div>
-            <div class="copyright">
-                <p>&copy; 2025 SitemapMaker. Todos os direitos reservados.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">
+              2
             </div>
+            <div class="step-content">
+              <h3>Acessar o SiteMapMaker</h3>
+              <p>
+                Vá até a página de geração de sitemap do SiteMapMaker:
+              </p>
+              <p>
+                <a href="generate-sitemap.html" style="color: var(--primary-color); font-weight: 600;">Gerar Sitemap - SiteMapMaker</a>
+              </p>
+              <p>
+                Não é necessário criar conta ou fazer login. O serviço é 100% gratuito.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">
+              3
+            </div>
+            <div class="step-content">
+              <h3>Inserir a URL do Site</h3>
+              <p>
+                No campo indicado, digite a URL completa do seu site, incluindo "http://" ou "https://".
+              </p>
+              <div class="code-block">
+                Exemplo: https://www.meusite.com
+              </div>
+              <p>
+                Certifique-se de usar a URL canônica (principal) do seu site.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">
+              4
+            </div>
+            <div class="step-content">
+              <h3>Configurar as Opções</h3>
+              <p>
+                Personalize as opções de acordo com suas necessidades:
+              </p>
+              <ul>
+                <li><strong>Incluir imagens:</strong> Recomendado para sites com conteúdo visual</li>
+                <li><strong>Incluir vídeos:</strong> Importante para sites com conteúdo em vídeo</li>
+                <li><strong>Limitar a 500 páginas:</strong> A maioria dos sites se beneficia desta limitação</li>
+                <li><strong>Frequência de alteração:</strong> Defina conforme a atualização do seu conteúdo</li>
+                <li><strong>Prioridade:</strong> Atribua prioridades diferentes para tipos de páginas</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">
+              5
+            </div>
+            <div class="step-content">
+              <h3>Gerar e Baixar o Sitemap</h3>
+              <p>
+                Clique no botão "Gerar Sitemap" e aguarde o processamento.
+              </p>
+              <p>
+                Uma vez concluído, você pode:
+              </p>
+              <ul>
+                <li>Visualizar o XML gerado</li>
+                <li>Copiar o código para usar posteriormente</li>
+                <li>Fazer o download do arquivo sitemap.xml</li>
+              </ul>
+              <p>
+                Salve o arquivo em um local seguro do seu computador.
+              </p>
+            </div>
+          </div>
         </div>
-    </footer>
+      </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // FAQ Accordion
-            document.querySelectorAll('.faq-question').forEach(question => {
-                question.addEventListener('click', () => {
-                    const item = question.parentNode;
-                    item.classList.toggle('active');
-                });
-            });
+      <!-- Implementação Section -->
+      <section id="implementacao" class="tutorial-section">
+        <div class="section-header">
+          <h2>Implementando o Sitemap no seu Site</h2>
+          <p>
+            Aprenda a colocar o sitemap no seu site para que os mecanismos de busca possam encontrá-lo
+          </p>
+        </div>
 
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
+        <div class="tutorial-steps">
+          <div class="step">
+            <div class="step-number">
+              1
+            </div>
+            <div class="step-content">
+              <h3>Fazer Upload do Arquivo</h3>
+              <p>
+                Transfira o arquivo sitemap.xml para o diretório raiz do seu site:
+              </p>
+              <ul>
+                <li>Acesse seu painel de hospedagem ou use FTP</li>
+                <li>Navegue até a pasta principal (normalmente "public_html" ou "www")</li>
+                <li>Faça upload do arquivo sitemap.xml</li>
+              </ul>
+              <p>
+                O arquivo deve estar acessível através de: <code>https://seusite.com/sitemap.xml</code>
+              </p>
+            </div>
+          </div>
 
-            // Back to top button
-            const backToTopButton = document.getElementById('backToTop');
-            
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > 300) {
-                    backToTopButton.classList.add('visible');
-                } else {
-                    backToTopButton.classList.remove('visible');
-                }
-            });
+          <div class="step">
+            <div class="step-number">
+              2
+            </div>
+            <div class="step-content">
+              <h3>Adicionar ao robots.txt (Opcional)</h3>
+              <p>
+                Para facilitar que os crawlers encontrem seu sitemap, adicione esta linha ao arquivo robots.txt:
+              </p>
+              <div class="code-block">
+                Sitemap: https://seusite.com/sitemap.xml
+              </div>
+              <p>
+                Coloque esta linha preferencialmente no início ou no final do arquivo robots.txt.
+              </p>
+            </div>
+          </div>
 
-            backToTopButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
+          <div class="step">
+            <div class="step-number">
+              3
+            </div>
+            <div class="step-content">
+              <h3>Verificar se está Acessível</h3>
+              <p>
+                Abra seu navegador e digite a URL completa do sitemap para verificar se está funcionando:
+              </p>
+              <div class="code-block">
+                https://seusite.com/sitemap.xml
+              </div>
+              <p>
+                Se aparecer o conteúdo XML, significa que o sitemap está corretamente instalado.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            // Update active nav link based on scroll position
-            const sections = document.querySelectorAll('.tutorial-section');
-            const navLinks = document.querySelectorAll('.tutorial-nav a');
+      <!-- Google Search Console Section -->
+      <section id="google-console" class="tutorial-section">
+        <div class="section-header">
+          <h2>Enviando para o Google Search Console</h2>
+          <p>
+            O passo mais importante para garantir que o Google conheça e indexe todas as páginas do seu site
+          </p>
+        </div>
 
-            window.addEventListener('scroll', function() {
-                let current = '';
-                
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop - 150;
-                    const sectionHeight = section.clientHeight;
-                    if (pageYOffset >= sectionTop) {
-                        current = section.getAttribute('id');
-                    }
-                });
+        <div class="tutorial-steps">
+          <div class="step">
+            <div class="step-number">
+              1
+            </div>
+            <div class="step-content">
+              <h3>Acessar o Google Search Console</h3>
+              <p>
+                Vá até <a href="https://search.google.com/search-console/" style="color: var(--primary-color); font-weight: 600;">Google Search Console</a> e faça login com sua conta Google.
+              </p>
+              <p>
+                Se você ainda não adicionou seu site, clique em "Adicionar propriedade" e siga as instruções para verificar sua propriedade.
+              </p>
+            </div>
+          </div>
 
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${current}`) {
-                        link.classList.add('active');
-                    }
-                });
-            });
+          <div class="step">
+            <div class="step-number">
+              2
+            </div>
+            <div class="step-content">
+              <h3>Navegar até a Seção Sitemaps</h3>
+              <p>
+                No menu lateral, clique em "Sitemaps" na seção "Indexação".
+              </p>
+              <p>
+                Esta é a área onde você pode enviar e gerenciar seus sitemaps.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">
+              3
+            </div>
+            <div class="step-content">
+              <h3>Adicionar Novo Sitemap</h3>
+              <p>
+                No campo "Adicionar um novo sitemap", digite o caminho para seu sitemap:
+              </p>
+              <div class="code-block">
+                sitemap.xml
+              </div>
+              <p>
+                Clique em "Enviar" para registrar seu sitemap no Google.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">
+              4
+            </div>
+            <div class="step-content">
+              <h3>Monitorar o Status</h3>
+              <p>
+                Após o envio, o Google começará a processar seu sitemap. Você pode verificar:
+              </p>
+              <ul>
+                <li><strong>Status:</strong> Mostra se o sitemap foi processado com sucesso</li>
+                <li><strong>Última leitura:</strong> Quando o Google acessou seu sitemap pela última vez</li>
+                <li><strong>URLs descobertas:</strong> Quantas URLs foram encontradas no sitemap</li>
+              </ul>
+              <p>
+                O processamento pode levar de alguns dias a algumas semanas.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Otimização Section -->
+      <section id="otimizacao" class="tutorial-section">
+        <div class="section-header">
+          <h2>Otimizando seu Sitemap</h2>
+          <p>
+            Dicas para extrair o máximo benefício do seu sitemap XML
+          </p>
+        </div>
+
+        <div class="tips-grid">
+          <div class="tip-card">
+            <div class="tip-icon">
+              ✓
+            </div>
+            <h3>Atualize Regularmente</h3>
+            <p>
+              Gere um novo sitemap sempre que adicionar conteúdo significativo ao seu site ou alterar sua estrutura.
+            </p>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-icon">
+              ⚡
+            </div>
+            <h3>Use Prioridades Inteligentes</h3>
+            <p>
+              Atribua prioridades mais altas para páginas importantes como homepage, páginas de produto e conteúdo principal.
+            </p>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-icon">
+              🔄
+            </div>
+            <h3>Ajuste Frequências</h3>
+            <p>
+              Defina frequências de atualização realistas. Blog posts podem ser "diariamente", enquanto páginas institucionais "mensalmente".
+            </p>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-icon">
+              📅
+            </div>
+            <h3>Mantenha Lastmod Atualizado</h3>
+            <p>
+              Atualize a data da última modificação (lastmod) sempre que fizer alterações significativas em uma página.
+            </p>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-icon">
+              🚫
+            </div>
+            <h3>Exclua Conteúdo Não Indexável</h3>
+            <p>
+              Não inclua no sitemap páginas com noindex, páginas de login, ou conteúdo duplicado.
+            </p>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-icon">
+              📊
+            </div>
+            <h3>Monitore no Search Console</h3>
+            <p>
+              Verifique regularmente o Google Search Console para ver como suas páginas estão sendo indexadas.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dicas Avançadas Section -->
+      <section id="dicas" class="tutorial-section">
+        <div class="section-header">
+          <h2>Dicas Avançadas e Melhores Práticas</h2>
+          <p>
+            Vá além do básico com estas estratégias avançadas de sitemap
+          </p>
+        </div>
+
+        <div class="tutorial-steps">
+          <div class="step">
+            <div class="step-content">
+              <h3>Sitemaps para Imagens e Vídeos</h3>
+              <p>
+                Para sites ricos em mídia, considere criar sitemaps específicos:
+              </p>
+              <ul>
+                <li><strong>Sitemap de imagens:</strong> Inclui todas as imagens importantes do site</li>
+                <li><strong>Sitemap de vídeos:</strong> Especialmente útil para conteúdo em vídeo</li>
+                <li><strong>Sitemap de notícias:</strong> Para sites de notícias que usam o Google News</li>
+              </ul>
+              <p>
+                O SiteMapMaker permite incluir imagens e vídeos no sitemap principal.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-content">
+              <h3>Sitemap Index para Sites Grandes</h3>
+              <p>
+                Para sites com milhares de páginas, crie um sitemap index que referencia múltiplos sitemaps:
+              </p>
+              <div class="code-block">
+                &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+                &lt;sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+                &lt;sitemap&gt;
+                &lt;loc&gt;https://www.example.com/sitemap-pages.xml&lt;/loc&gt;
+                &lt;lastmod&gt;2023-10-15&lt;/lastmod&gt;
+                &lt;/sitemap&gt;
+                &lt;sitemap&gt;
+                &lt;loc&gt;https://www.example.com/sitemap-images.xml&lt;/loc&gt;
+                &lt;lastmod&gt;2023-10-15&lt;/lastmod&gt;
+                &lt;/sitemap&gt;
+                &lt;/sitemapindex&gt;
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-content">
+              <h3>Compatibilidade com Outros Mecanismos de Busca</h3>
+              <p>
+                Além do Google, outros mecanismos de busca também usam sitemaps:
+              </p>
+              <ul>
+                <li><strong>Bing Webmaster Tools:</strong> Oferece funcionalidades similares ao Google Search Console</li>
+                <li><strong>Yandex Webmaster:</strong> Para tráfego russo e de países vizinhos</li>
+                <li><strong>Baidu Webmaster Tools:</strong> Para o mercado chinês</li>
+              </ul>
+              <p>
+                Envie seu sitemap para essas plataformas se seu público-alvo inclui essas regiões.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section id="faq" class="tutorial-section">
+        <div class="section-header">
+          <h2>Perguntas Frequentes sobre Sitemaps</h2>
+          <p>
+            Respostas para as dúvidas mais comuns sobre sitemaps XML
+          </p>
+        </div>
+
+        <div class="faq-container">
+          <div class="faq-item">
+            <div class="faq-question">
+              Com que frequência devo atualizar meu sitemap?
+            </div>
+            <div class="faq-answer">
+              <p>
+                Recomendamos atualizar seu sitemap sempre que:
+              </p>
+              <ul>
+                <li>Adicionar novas páginas significativas ao site</li>
+                <li>Remover páginas existentes</li>
+                <li>Mudar a estrutura de URLs do site</li>
+                <li>Fazer alterações importantes no conteúdo das páginas</li>
+              </ul>
+              <p>
+                Para a maioria dos sites, uma atualização mensal é suficiente. Para sites com conteúdo muito dinâmico, considere atualizações semanais.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              Meu sitemap tem um limite de tamanho?
+            </div>
+            <div class="faq-answer">
+              <p>
+                Sim, o Google recomenda os seguintes limites:
+              </p>
+              <ul>
+                <li><strong>Arquivo sitemap individual:</strong> Máximo de 50MB (não compactado) ou 50.000 URLs</li>
+                <li><strong>Sitemap index:</strong> Pode referenciar até 50.000 sitemaps individuais</li>
+              </ul>
+              <p>
+                Se seu site exceder esses limites, divida-o em múltiplos sitemaps e use um sitemap index.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              Preciso de sitemap se meu site é pequeno?
+            </div>
+            <div class="faq-answer">
+              <p>
+                Mesmo para sites pequenos, um sitemap é benéfico porque:
+              </p>
+              <ul>
+                <li>Ajuda o Google a descobrir todo o conteúdo, mesmo com poucos backlinks</li>
+                <li>Fornece informações sobre a importância relativa das páginas</li>
+                <li>Indica com que frequência o conteúdo é atualizado</li>
+                <li>Pode acelerar a indexação de novo conteúdo</li>
+              </ul>
+              <p>
+                Para sites com menos de 10 páginas, o benefício é menor, mas ainda recomendado.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              O sitemap garante que minhas páginas serão indexadas?
+            </div>
+            <div class="faq-answer">
+              <p>
+                Não, o sitemap é apenas uma recomendação para os mecanismos de busca. O Google pode optar por não indexar algumas páginas devido a:
+              </p>
+              <ul>
+                <li>Conteúdo de baixa qualidade ou duplicado</li>
+                <li>Problemas de rastreabilidade</li>
+                <li>Diretivas no robots.txt ou meta tags</li>
+                <li>Penalidades manuais ou algoritmicas</li>
+              </ul>
+              <p>
+                O sitemap aumenta as chances, mas não garante a indexação.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              Posso usar o mesmo sitemap para diferentes subdomínios?
+            </div>
+            <div class="faq-answer">
+              <p>
+                Não, cada subdomínio é tratado como um site separado pelos mecanismos de busca. Você precisa:
+              </p>
+              <ul>
+                <li>Criar um sitemap separado para cada subdomínio</li>
+                <li>Verificar cada subdomínio individualmente no Google Search Console</li>
+                <li>Enviar o sitemap específico para cada propriedade</li>
+              </ul>
+              <p>
+                Exceção: se você usar domínios internacionais (como exemplo.com.br, exemplo.es), pode usar o mesmo sitemap se configurar corretamente as tags hreflang.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="tutorial-cta">
+        <h2>Pronto para Gerar seu Sitemap?</h2>
+        <p>
+          Agora que você já sabe como criar, implementar e otimizar seu sitemap, é hora de colocar em prática. Use nosso gerador gratuito para criar seu sitemap em minutos.
+        </p>
+        <a href="generate-sitemap.html" class="cta-button">Gerar Meu Sitemap Agora</a>
+      </section>
+    </div>
+  </section>
+
+  <!-- Back to Top Button -->
+  <a href="#" class="back-to-top" id="backToTop">↑</a>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>SiteMapMaker</h3>
+          <p>
+            Ferramenta gratuita para geração de sitemaps XML, focada em melhorar a indexação e SEO do seu site.
+          </p>
+        </div>
+        <div class="footer-column">
+          <h3>Links Rápidos</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="generate-sitemap.html">Gerar Sitemap</a></li>
+            <li><a href="tutorial.html">Tutorial</a></li>
+            <li><a href="#">Política de Privacidade</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Recursos</h3>
+          <ul>
+            <li><a href="#">Blog sobre SEO</a></li>
+            <li><a href="#">Tutoriais</a></li>
+            <li><a href="#">Perguntas Frequentes</a></li>
+            <li><a href="#">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>
+          &copy; 2025 SitemapMaker. Todos os direitos reservados.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // FAQ Accordion
+      document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+          const item = question.parentNode;
+          item.classList.toggle('active');
         });
-    </script>
+      });
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
+      // Back to top button
+      const backToTopButton = document.getElementById('backToTop');
+
+      window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+          backToTopButton.classList.add('visible');
+        } else {
+          backToTopButton.classList.remove('visible');
+        }
+      });
+
+      backToTopButton.addEventListener('click',
+        function(e) {
+          e.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+
+      // Update active nav link based on scroll position
+      const sections = document.querySelectorAll('.tutorial-section');
+      const navLinks = document.querySelectorAll('.tutorial-nav a');
+
+      window.addEventListener('scroll',
+        function() {
+          let current = '';
+
+          sections.forEach(section => {
+            const sectionTop = section.offsetTop - 150;
+            const sectionHeight = section.clientHeight;
+            if (pageYOffset >= sectionTop) {
+              current = section.getAttribute('id');
+            }
+          });
+
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+              link.classList.add('active');
+            }
+          });
+        });
+    });
+  </script>
 </body>
 </html>
