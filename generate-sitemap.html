@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SiteMapMaker - Gere seu sitemap XML gratuitamente. Ferramenta 100% gratuita para otimização SEO.">
+  <meta name="keywords" content="gerar sitemap, sitemap xml, SEO, google search console, indexação,SiteMapMaker">
+  <title>Gerar Sitemap - SiteMapMaker</title>
+  <link rel="stylesheet" href="css/generate.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <h1>SiteMap<span>Maker</span></h1>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#next-steps">Instruções</a></li>
+            <li><a href="#results">Resultados</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <section class="main-content">
+    <div class="container">
+      <div class="page-title">
+        <h1>Gerar Sitemap XML</h1>
+        <p>
+          Insira a URL do seu site abaixo para gerar automaticamente seu sitemap XML. 100% gratuito e sem necessidade de login.
+        </p>
+      </div>
+
+      <!-- Alert Messages -->
+      <div class="alert alert-error" id="errorAlert">
+        Por favor, insira uma URL válida começando com http:// ou https://
+      </div>
+
+
+      <div class="generator-container">
+        <div class="generator-form">
+          <form id="sitemapForm">
+            <div class="form-group">
+              <label for="websiteUrl">URL do Site</label>
+              <input type="text" id="websiteUrl" class="form-control" placeholder="https://www.exemplo.com" required>
+              <div class="form-help">
+                Certifique-se de incluir http:// ou https://
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Opções de Varredura</label>
+              <div class="checkbox-group">
+                <input type="checkbox" id="includeImages" checked>
+                <label for="includeImages">Incluir imagens no sitemap</label>
+              </div>
+              <div class="checkbox-group">
+                <input type="checkbox" id="includeVideos" checked>
+                <label for="includeVideos">Incluir vídeos no sitemap</label>
+              </div>
+              <div class="checkbox-group">
+                <input type="checkbox" id="limitPages" checked>
+                <label for="limitPages">Limitar a 500 páginas (recomendado)</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="changeFreq">Frequência de Alteração Padrão</label>
+              <select id="changeFreq" class="form-control">
+                <option value="always">Sempre</option>
+                <option value="hourly">Horária</option>
+                <option value="daily" selected>Diária</option>
+                <option value="weekly">Semanal</option>
+                <option value="monthly">Mensal</option>
+                <option value="yearly">Anual</option>
+                <option value="never">Nunca</option>
+              </select>
+              <div class="form-help">
+                Com que frequência a página é alterada (valor padrão)
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="priority">Prioridade Padrão</label>
+              <select id="priority" class="form-control">
+                <option value="1.0">1.0 - Máxima</option>
+                <option value="0.9">0.9 - Muito Alta</option>
+                <option value="0.8">0.8 - Alta</option>
+                <option value="0.7" selected>0.7 - Moderada</option>
+                <option value="0.6">0.6 - Baixa</option>
+                <option value="0.5">0.5 - Muito Baixa</option>
+                <option value="0.4">0.4 - Mínima</option>
+                <option value="0.3">0.3</option>
+                <option value="0.2">0.2</option>
+                <option value="0.1">0.1</option>
+                <option value="0.0">0.0</option>
+              </select>
+              <div class="form-help">
+                Prioridade da página em relação a outras URLs no seu site
+              </div>
+            </div>
+
+            <button type="submit" class="generate-button" id="generateButton">
+              Gerar Sitemap
+            </button>
+          </form>
+
+          <div class="loading" id="loadingIndicator">
+            <div class="loading-spinner"></div>
+            <p>
+              Analisando seu site e gerando sitemap...
+            </p>
+          </div>
+        </div>
+
+        <div class="alert alert-success" id="successAlert">
+          Sitemap gerado com sucesso! Confira o resultado abaixo da seção "Por que usar um Sitemap XML?".
+        </div>
+
+        
+
+        <div class="generator-info">
+          <h3 class="info-title">Por que usar um Sitemap XML?</h3>
+          <ul class="info-list">
+            <li>Melhora a indexação do seu site pelos mecanismos de busca</li>
+            <li>Ajuda o Google a descobrir todas as páginas do seu site</li>
+            <li>Especialmente útil para sites novos ou com poucos backlinks</li>
+            <li>Fornece informações sobre a frequência de atualização das páginas</li>
+            <li>Permite especificar a prioridade de cada página</li>
+            <li>Pode incluir informações sobre imagens e vídeos</li>
+          </ul>
+
+          <h3 class="info-title" style="margin-top: 30px;">Como Funciona</h3>
+          <ul class="info-list">
+            <li>Nosso sistema varre seu site seguindo todos os links internos</li>
+            <li>Identifica todas as páginas acessíveis publicamente</li>
+            <li>Gera um arquivo XML no formato padrão do Google</li>
+            <li>Você pode baixar o arquivo e enviar para o Google Search Console</li>
+          </ul>
+        </div>
+      </div>
+
+<div class="results-container" id="resultsContainer">
+          <div class="results-header">
+            <h3 class="results-title">Seu Sitemap XML</h3>
+            <div class="results-actions">
+              <button class="action-button secondary" id="copyButton">Copiar XML</button>
+              <button class="action-button" id="downloadButton">Baixar Sitemap</button>
+            </div>
+          </div>
+          <div class="results-content" id="resultsContent">
+            
+          </div>
+        </div>
+
+      <div class="next-steps" id="next-steps">
+        <div class="steps-title">
+          <h2>Próximos Passos</h2>
+          <p>
+            O que fazer depois de gerar seu sitemap
+          </p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-icon">
+              1
+            </div>
+            <h3>Faça o Download</h3>
+            <p>
+              Baixe o arquivo sitemap.xml gerado para o seu computador.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-icon">
+              2
+            </div>
+            <h3>Faça o Upload</h3>
+            <p>
+              Envie o arquivo para o diretório raiz do seu site (onde está o index.html).
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-icon">
+              3
+            </div>
+            <h3>Envie para o Google</h3>
+            <p>
+              Use o Google Search Console para enviar o sitemap ao Google.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-icon">
+              4
+            </div>
+            <h3>Monitore</h3>
+            <p>
+              Acompanhe a indexação das suas páginas no Google Search Console.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>SiteMapMaker</h3>
+          <p>
+            Ferramenta gratuita para geração de sitemaps XML,criada por Gabriel Rodrigues Carneiro, focada em melhorar a indexação e SEO do seu site.
+          </p>
+        </div>
+        <div class="footer-column">
+          <h3>Links Rápidos</h3>
+          <ul>
+            <li><a href="#benefits">Benefícios</a></li>
+            <li><a href="#how-it-works">Como Funciona</a></li>
+            <li><a href="index.html/#faq">Perguntas Frequentes</a></li>
+            <li><a href="generate-sitemap.html">Gerar Sitemap</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Recursos</h3>
+          <ul>
+            <li><a href="#">Blog sobre SEO</a></li>
+            <li><a href="#">Tutoriais</a></li>
+            <li><a href="#">Política de Privacidade</a></li>
+            <li><a href="#">Termos de Uso</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>
+          &copy; 2025 SiteMapMaker. Todos os direitos reservados.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script src="js/generate.js"></script>
+</body>
+</html>
