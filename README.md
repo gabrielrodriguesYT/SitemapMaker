@@ -10,7 +10,7 @@
 
 ## 🌟 Sobre o Projeto
 
-O SiteMapMaker é uma ferramenta web gratuita que permite gerar sitemaps XML de forma rápida e intuitiva, sem necessidade de cadastro ou login. Desenvolvido com foco em UX e otimização SEO, oferece uma experiência completa desde a geração até a implementação do sitemap.
+O SiteMapMaker é uma ferramenta web gratuita criada por Gabriel Rodrigues Carneiro, que permite gerar sitemaps XML de forma rápida e intuitiva, sem necessidade de cadastro ou login. Desenvolvido com foco em UX e otimização SEO, oferece uma experiência completa desde a geração até a implementação do sitemap.
 
 ### ✨ Funcionalidades Principais
 
